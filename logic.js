@@ -1,7 +1,6 @@
 $(document).ready(function() {
-  console.log("hello");
-  var testArr = [];
   var ctx = $("#myChart");
+  var defaultDump = $("#default");
 
   var randomColor = function() {
     var red = Math.floor(Math.random() * 255);
@@ -11,6 +10,23 @@ $(document).ready(function() {
   };
 
   console.log(randomColor());
+  var defaultPie = new Chart(defaultDump, {
+    type: "pie",
+    data: {
+      labels: ["One", "Two", "Three"],
+      datasets: [
+        {
+          labels: "Default Syntax",
+          data: [3, 2, 1],
+          backgroundColor: [randomColor(), randomColor(), randomColor()],
+          borderWidth: 1
+        }
+      ]
+    },
+    options: {
+      responsive: true
+    }
+  }); // end of pie chart
 
   var myChart = new Chart(ctx, {
     type: "pie",
@@ -19,6 +35,7 @@ $(document).ready(function() {
       // labels(keys) are pulled from local storage
       datasets: [
         {
+          labels: "Local Storage",
           data: JSON.parse(localStorage.getItem("Data")),
           //data (value) is pulled from storage
           backgroundColor:
@@ -44,8 +61,6 @@ $(document).ready(function() {
 
   var pieChartPush = function(key, value) {
     console.log("pushed");
-    testArr.push(randomColor());
-    console.log(testArr);
     myChart.data.datasets[0].backgroundColor.push(randomColor());
     myChart.data.datasets[0].data.push(value);
     myChart.data.labels.push(key);
